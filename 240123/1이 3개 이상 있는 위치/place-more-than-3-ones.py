@@ -1,32 +1,33 @@
-import sys
+# 변수 선언 및 입력
+n = int(input())
+arr = [
+    list(map(int, input().split()))
+    for _ in range(n)
+]
 
-N = int(input())
+dxs = [0, 1,  0, -1]
+dys = [1, 0, -1,  0]
 
-# x,y = 0,0
-cnt = 0
 
-dxs = [0,1,0,-1]
-dys = [1,0,-1,0]
+def in_range(x, y):
+    return 0 <= x and x < n and 0 <= y and y < n
 
-def in_range(x,y):
-    return 0 <= x < N and 0 <= y < N
 
-###########
+def adjacent_cnt(x, y):
+    cnt = 0
+    for dx, dy in zip(dxs, dys):
+        nx, ny = x + dx, y + dy
+        if in_range(nx, ny) and arr[nx][ny] == 1:
+            cnt += 1
+    
+    return cnt
 
-grid = []
 
-for i in range(N):
-    grid.append(list(map(int, sys.stdin.readline().split())))
-
-for x in range(N):
-    for y in range(N):
-        one_num = 0
-        for dx, dy in zip(dxs,dys):
-            nx = x + dx
-            ny = y + dy
-            if in_range(nx,ny) and grid[nx][ny] == 1:
-                one_num = one_num + 1
-        if one_num >= 3:
-            cnt = cnt + 1
-
-print(cnt)
+# 각 칸을 탐색합니다.
+ans = 0
+for i in range(n):
+    for j in range(n):
+        if adjacent_cnt(i, j) >= 3:
+            ans += 1
+    
+print(ans)
