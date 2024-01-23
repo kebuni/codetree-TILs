@@ -20,7 +20,7 @@ def reflect(x,y,direction):
         else:
             return 1 - direction
     else:
-        return 3-direction
+        return 3 - direction
 
 for i in range(N):
     line = sys.stdin.readline()
@@ -39,8 +39,10 @@ elif N+1<=light<=N*2:
     direction = 3
     y = N-1; x = (light -1 ) % N
 elif N*2+1<=light<=N*3:
+    direction = 0
     x = N-1; y = (4*N - light) % N
 else:
+    direction = 2
     y = 0; x = 4*N - light
 
 while in_range(x,y):
