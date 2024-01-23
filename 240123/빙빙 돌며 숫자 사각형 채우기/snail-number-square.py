@@ -8,7 +8,7 @@ n, m = map(int,input().split())
 def in_range(x,y):
     return 0<=x<n and 0<=y<m
 
-grid = [[0 for i in range(m)] for j in range(n)]
+grid = [[0]*m for j in range(n)]
 
 grid[0][0] = 1
 
