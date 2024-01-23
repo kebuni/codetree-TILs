@@ -15,7 +15,7 @@ def in_range(x,y):
 
 def reflect(x,y,direction):
     if grid[x][y] == 0:
-        if direction > 1:
+        if direction == 1 or direction == 3:
             return 4 - direction
         else:
             return 2 - direction
