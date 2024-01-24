@@ -7,14 +7,14 @@ B = list(B)
 A.sort()
 B.sort()
 
-ans = "NO"
+ans = "No"
 
 if len(A) == len(B):
     for i in range(len(A)):
         if A[i] != B[i]:
-            ans = "NO"
+            ans = "No"
             break
-        ans = "YES"
+        ans = "Yes"
 
 
 
