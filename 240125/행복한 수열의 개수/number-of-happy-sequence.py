@@ -7,6 +7,9 @@ ans = 0
 def is_happy(arr):
     cnt = 1
     prev = arr[0]
+    
+    if m==1: return True
+    
     for i in range(1,len(arr)):
         if arr[i] == prev:
             cnt = cnt+1
