@@ -1,44 +1,64 @@
-n, m = map(int,input().split())
+# 변수 선언 및 입력:
 
-grid = []
-max = -1
+n, m = tuple(map(int, input().split()))
+grid = [
+    list(map(int, input().split()))
+    for _ in range(n)
+]
 
-def tromino1(x,y):
-    global max
-    temp = grid[x][y] + grid[x][y+1] + grid[x+1][y] + grid[x+1][y+1]
-    temp = temp - min(grid[x][y],grid[x][y+1],grid[x+1][y],grid[x+1][y+1])
+# 가능한 모든 모양을 전부 적어줍니다.
+shapes = [
+    [[1, 1, 0],
+    [1, 0, 0],
+    [0, 0, 0]],
 
-    if temp > max:
-        max = temp
+    [[1, 1, 0],
+    [0, 1, 0],
+    [0, 0, 0]],
 
-def tromino2_vertical(x,y):
-    global max
-    temp = grid[x][y] + grid[x+1][y] + grid[x+2][y]
+    [[1, 0, 0],
+    [1, 1, 0],
+    [0, 0, 0]],
 
-    if temp > max:
-        max = temp
+    [[0, 1, 0],
+    [1, 1, 0],
+    [0, 0, 0]],
 
-def tromino2_horizon(x,y):
-    global max
-    temp = grid[x][y] + grid[x][y+1] + grid[x][y+2]
+    [[1, 1, 1],
+    [0, 0, 0],
+    [0, 0, 0]],
 
-    if temp > max:
-        max = temp
+    [[1, 0, 0],
+    [1, 0, 0],
+    [1, 0, 0]],
+]
 
+# 주어진 위치에 대하여 가능한 모든 모양을 탐색하며 최대 합을 반환합니다.
+def get_max_sum(x, y):
+    max_sum = 0
+    for i in range(6):
+        is_possible = True
+        sum_of_nums = 0
+        for dx in range(0, 3):
+            for dy in range(0, 3):
+                if shapes[i][dx][dy] == 0:
+                    continue
+                if x + dx >= n or y + dy >= m:
+                    is_possible = False
+                else:
+                    sum_of_nums += grid[x + dx][y + dy]
+        
+        if is_possible:
+            max_sum = max(max_sum, sum_of_nums)
+
+    return max_sum
+
+
+ans = 0
+
+# 격자의 각 위치에 대하여 탐색하여줍니다.
 for i in range(n):
-    grid.append(list(map(int,input().split())))
-
-for i in range(n-1):
-    for j in range(m-1):
-        for k in range(4):
-            tromino1(i,j)
-
-for i in range(n-2):
     for j in range(m):
-        tromino2_vertical(i,j)
+        ans = max(ans, get_max_sum(i, j))
 
-for i in range(n):
-    for j in range(m-2):
-        tromino2_horizon(i,j)
-
-print(max)
+print(ans)
