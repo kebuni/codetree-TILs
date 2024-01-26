@@ -6,7 +6,7 @@ ans = -1
 def all_pos(i,j,k,l):
     for x in range(i,k+1):
         for y in range(j,l+1):
-            if grid[x][y] < 0:
+            if grid[x][y] <= 0:
                 return False
     return True
 
