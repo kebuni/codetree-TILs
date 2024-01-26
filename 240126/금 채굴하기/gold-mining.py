@@ -1,7 +1,7 @@
 n, price = map(int,input().split())
 
 grid = []
-ans = -1
+ans = 0
 
 def in_range(x,y):
     return 0<=x<n and 0<=y<n
