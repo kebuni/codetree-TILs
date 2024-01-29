@@ -1,5 +1,7 @@
 n, k = map(int,input().split())
 
+k = k%(2*n)
+
 grid = []
 
 grid = grid + list(map(int,input().split()))
