@@ -1,12 +1,15 @@
 N, M, Q = map(int, input().split())
 
 grid = []
+winds = []
 
 for i in range(N):
     grid.append(list(map(int, input().split())))
 
-start_row, start_direct = input().split()
-start_row = int(start_row) - 1
+for i in range(Q):
+    start_row, start_direct = input().split()
+    start_row = int(start_row) - 1
+    winds.append((start_row,start_direct))
 
 ###########################
 
@@ -56,7 +59,7 @@ def propa(cur, new):
 ###########################
 
 for i in range(Q):
-    wind(start_row, directs[start_direct])
+    wind(winds[i][0], directs[winds[i][1]])
     clear_visited()
 
 for i in range(N):
