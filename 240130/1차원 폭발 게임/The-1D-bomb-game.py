@@ -36,6 +36,9 @@ def simulate():
         
         fall()
 
+        if bombs[0] == 0:
+            break
+
         if escape:
             break
 
