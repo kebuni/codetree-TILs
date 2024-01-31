@@ -23,6 +23,8 @@ def simulate(original_x,original_y,direct):
     cnt = 1
     x = original_x
     y = original_y
+    if grid[x][y]:
+        direct = reflect(direct, grid[x][y])
     #print_grid(x, y)
     while True:
         x = x + dxs[direct]
