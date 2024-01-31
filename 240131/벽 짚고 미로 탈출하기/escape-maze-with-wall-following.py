@@ -29,7 +29,7 @@ def is_there_wall(x,y,direct):
 #############################
 
 N = int(input())
-limit = N*N+1
+limit = N**3
 start_x, start_y = map(int,input().split())
 cur_x = start_x - 1
 cur_y = start_y - 1
