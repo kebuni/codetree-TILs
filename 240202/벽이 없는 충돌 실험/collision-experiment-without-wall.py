@@ -1,5 +1,5 @@
 NO_BID = (0,0,0)
-SCALE = 1000
+SCALE = 1001
 N = SCALE*2+1
 #grid = [[NO_BID for i in range(N)]for j in range(N)]
 #next_grid = [[NO_BID for i in range(N)]for j in range(N)]
@@ -47,7 +47,7 @@ for _ in range(TestCase):
         x = int(x) * 2 + SCALE
         y = int(y) * -2 + SCALE
         #grid[y][x] = (int(w),int(bididx)+1,directs[d])
-        bids_list.append((x,y,int(w),int(bididx)+1,directs[d]))
+        bids_list.append((y,x,int(w),int(bididx)+1,directs[d]))
 
     #print_grid()
     time = 0   
