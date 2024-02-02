@@ -32,7 +32,7 @@ def count_grid():
 
 def move(x,y):
     global next_grid
-    w, idx, d = grid[x][y]
+    idx, w, d = grid[x][y]
     nx = x + dxs[d]
     ny = y + dys[d]
     if not in_range(nx,ny):
@@ -61,7 +61,7 @@ def collide():
             if len(next_grid[i][j]):
                 next_grid[i][j].sort(reverse=True)
                 new_idx = next_grid[i][j][0][0]
-                new_w = sum(list(map(lambda x:x[0],next_grid[i][j])))
+                new_w = sum(list(map(lambda x:x[1],next_grid[i][j])))
                 new_d = next_grid[i][j][0][2]
                 next_grid[i][j] = [(new_idx,new_w,new_d)]
                 max_weight = max(new_w,max_weight)
