@@ -1,5 +1,4 @@
-NO_BID = (0,0,0)
-SCALE = 1001
+SCALE = 1000
 N = SCALE*2+1
 #grid = [[NO_BID for i in range(N)]for j in range(N)]
 #next_grid = [[NO_BID for i in range(N)]for j in range(N)]
