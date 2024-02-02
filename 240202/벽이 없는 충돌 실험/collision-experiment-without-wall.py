@@ -37,6 +37,7 @@ TestCase = int(input())
 
 for _ in range(TestCase):
 
+    last_collision = -1
     #initialize_grid()
     bids_list.clear()
 
