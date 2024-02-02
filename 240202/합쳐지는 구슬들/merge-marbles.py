@@ -37,11 +37,11 @@ def move(x,y):
     ny = y + dys[d]
     if not in_range(nx,ny):
         d = (d + 2) % 4
-        next_grid[x][y].append((w,idx,d))
+        next_grid[x][y].append((idx,w,d))
     else:
         x = x + dxs[d]
         y = y + dys[d]
-        next_grid[x][y].append((w,idx,d))
+        next_grid[x][y].append((idx,w,d))
 
 
 def copy():
@@ -60,10 +60,10 @@ def collide():
         for j in range(N):
             if len(next_grid[i][j]):
                 next_grid[i][j].sort(reverse=True)
+                new_idx = next_grid[i][j][0][0]
                 new_w = sum(list(map(lambda x:x[0],next_grid[i][j])))
-                new_idx = next_grid[i][j][0][1]
                 new_d = next_grid[i][j][0][2]
-                next_grid[i][j] = [(new_w,new_idx,new_d)]
+                next_grid[i][j] = [(new_idx,new_w,new_d)]
                 max_weight = max(new_w,max_weight)
                 
 
@@ -79,13 +79,13 @@ def initialize_next_grid():
 N, M, T = map(int,input().split())
 
 for i in range(N):
-    grid.append([(0,0,0) for j in range(N)]) #(w,n,d)
-    next_grid.append([[] for j in range(N)]) #(w,n,d)
+    grid.append([(0,0,0) for j in range(N)]) #(n,w,d)
+    next_grid.append([[] for j in range(N)]) #(n,w,d)
 
 for i in range(M):
     r,c,d,w = input().split()
     max_weight = max(max_weight,int(w))
-    grid[int(r)-1][int(c)-1] = (int(w),i+1,directs[d])
+    grid[int(r)-1][int(c)-1] = (i+1,int(w),directs[d])
 
 # print_grid()
 # print()
