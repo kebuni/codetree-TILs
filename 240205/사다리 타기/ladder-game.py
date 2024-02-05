@@ -19,9 +19,10 @@ def get_result2():
         arr[a] = arr[a+1]
         arr[a+1] = temp
 
-def select(n,start):
+def select(n):
     global ans, arr
-    if n == 0:
+    if n == M:
+        init_arr()
         get_result2()
         if compare():
             #print("here")
@@ -29,10 +30,12 @@ def select(n,start):
             ans = min(ans,len(temp_ladders))
         return
 
-    for i in range(1,N):
-        temp_ladders.append((0,i))
-        select(n-1,start)
-        temp_ladders.pop()
+    #print(n)
+
+    temp_ladders.append(ladders[n])
+    select(n+1)
+    temp_ladders.pop()
+    select(n+1)
     
     return
 
@@ -64,13 +67,11 @@ init_arr()
 temp_ladders = []
 ladders.sort()
 get_result()
+#print(arr)
 
 for i in range(N+1):
         result.append(arr[i])
 
-for i in range(M):
-    init_arr()
-    temp_ladders = []
-    select(i,i)
+select(0)
 
 print(ans)
