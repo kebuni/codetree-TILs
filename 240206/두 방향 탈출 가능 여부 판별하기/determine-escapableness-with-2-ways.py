@@ -7,6 +7,8 @@ ans = 0
 def dfs(x,y):
     global visited,ans
 
+    if visited[x][y]: return
+
     if x==N-1 and y==M-1:
         #print("yeah!!")
         ans = 1
