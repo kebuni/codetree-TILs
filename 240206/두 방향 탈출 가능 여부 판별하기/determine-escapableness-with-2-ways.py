@@ -7,11 +7,6 @@ ans = 0
 def dfs(x,y):
     global visited,ans
 
-    if x==N-1 and y==M-1:
-        #print("yeah!!")
-        ans = 1
-        return
-
     for dx, dy in zip(dxs,dys):
         nx = x+dx
         ny = y+dy
@@ -40,4 +35,7 @@ for _ in range(N):
 visited[0][0] = True
 dfs(0,0)
 
-print(ans)
+if visited[N-1][M-1] : 
+    print(1)
+else: 
+    print(0)
