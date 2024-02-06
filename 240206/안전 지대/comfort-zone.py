@@ -1,3 +1,9 @@
+import sys
+sys.setrecursionlimit(9999)
+
+# 원래 코드 
+
+
 grid = []
 visited = []
 #safezone_grid = []
