@@ -7,8 +7,6 @@ ans = 0
 def dfs(x,y):
     global visited,ans
 
-    if visited[x][y]: return
-
     if x==N-1 and y==M-1:
         #print("yeah!!")
         ans = 1
@@ -18,7 +16,7 @@ def dfs(x,y):
         nx = x+dx
         ny = y+dy
         if can_go(nx,ny):
-            visited[nx][ny]
+            visited[nx][ny] = 1
             dfs(nx,ny)
     return
 
