@@ -82,16 +82,24 @@ for x in range(N):
 for x, y in human_list:
     ans_grid[x][y] = INT_MAX
 
-for x, y in safe_list:
-    clear_step_and_visited()
-    push(x,y,0)
-    bfs()
-    update_ans_grid()
+# for x, y in safe_list:
+#     clear_step_and_visited()
+#     push(x,y,0)
+#     bfs()
+#     update_ans_grid()
 
-    #print_step()
+#     print_step()
+
+for x, y in safe_list:
+    push(x,y,0)
+
+bfs()
 
 for x, y in human_list:
-    if ans_grid[x][y] == INT_MAX:
-        ans_grid[x][y] = -1
+    ans_grid[x][y] = step[x][y]
+
+# for x, y in human_list:
+#     if ans_grid[x][y] == INT_MAX:
+#         ans_grid[x][y] = -1
 
 print_ans_grid()
