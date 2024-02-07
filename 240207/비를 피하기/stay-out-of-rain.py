@@ -60,7 +60,8 @@ def clear_step_and_visited():
 def update_ans_grid():
     global ans_grid
     for x,y in human_list:
-        ans_grid[x][y] = min(ans_grid[x][y],step[x][y])
+        if step[x][y] != -1:
+            ans_grid[x][y] = min(ans_grid[x][y],step[x][y])
     return
 
 ################################
