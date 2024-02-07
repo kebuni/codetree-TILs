@@ -8,7 +8,7 @@ def bfs():
         if x>1 and not visited[x-1]:
             push(x-1,step[x]+1)
         
-        if x<N and not visited[x+1]:
+        if x<2*N and not visited[x+1]:
             push(x+1,step[x]+1)
 
         if x%2==0 and not visited[x//2]:
@@ -29,8 +29,8 @@ def push(x,s):
 ####################
 N = int(input())
 
-step = [-1 for i in range(N+1)]
-visited = [0 for i in range(N+1)]
+step = [-1 for i in range(2*N+1)]
+visited = [0 for i in range(2*N+1)]
 
 push(N,0)
 bfs()
