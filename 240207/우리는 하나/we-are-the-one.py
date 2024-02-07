@@ -1,7 +1,7 @@
 from collections import deque
 grid = []
 visited = []
-selected_start = []
+city_cluster = []
 q = deque()
 dxs = [-1,0,1,0]
 dys = [0,1,0,-1]
@@ -9,34 +9,6 @@ cur_dist = 0
 ans = 0
 
 ##############################
-
-def choose_city(n,cnt):
-    global ans, cur_dist
-    if n==N*N:
-        if cnt == K:
-            clear_visited()
-            cur_dist = 0
-            #print(selected_start)
-            for elem in selected_start:
-                #print(elem//N, elem%N)
-                x = elem // N
-                y = elem % N
-                if not visited[x][y]:
-                    push(x,y)
-                    bfs()
-            #모든 도시에 대해 탐색이 끝났다면
-            ans = max(ans,cur_dist)
-            #print(ans)
-        return
-    
-    
-    selected_start.append(n)
-    choose_city(n+1,cnt+1)
-    selected_start.pop()
-
-    choose_city(n+1,cnt)
-
-    return
 
 def push(x,y):
     global cur_dist, visited, q
@@ -78,6 +50,15 @@ for _ in range(N):
     grid.append(list(map(int,input().split())))
     visited.append([0 for i in range(N)])
 
-choose_city(0,0)
+for x in range(N):
+    for y in range(N):
+        # 새로운 도시 클러스터를 찾았다면,
+        if not visited[x][y]:
+            cur_dist = 0
+            push(x,y)
+            bfs()
+            city_cluster.append(cur_dist)
 
-print(ans)
+city_cluster.sort(reverse=True)
+#print(city_cluster)
+print(sum(city_cluster[:K]))
