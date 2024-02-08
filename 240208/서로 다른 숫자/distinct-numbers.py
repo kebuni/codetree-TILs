@@ -1,7 +1,5 @@
-import sys
-
 N = input()
 
-s1 = set(map(int,sys.stdin.readline().split()))
+s1 = set(map(int,input().split()))
 
 print(len(s1))
