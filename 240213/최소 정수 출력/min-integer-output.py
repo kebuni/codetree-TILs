@@ -7,8 +7,7 @@ for i in range(N):
     x = int(input())
     if x == 0:
         if len(q):
-            a = heapq.heappop(q)
-            print(a)
+            print(heapq.heappop(q))
         else:
             print(0)
     else:
