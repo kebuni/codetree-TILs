@@ -1,84 +1,56 @@
-N = int(input())
+import sys
 
-x_limit = 0
-y_limit = 0
-xy_list = []
+INT_MAX = sys.maxsize
 
-for i in range(N):
-    x, y = map(int,input().split())
-    xy_list.append((x,y))
-    x_limit = max(x_limit,x)
-    y_limit = max(y_limit,y)
+MAX_R = 1000
+MAX_Q = 4
 
-x_list = [0 for i in range((x_limit+1)//2)]
-y_list = [0 for i in range((y_limit+1)//2)]
-x_split_l = [0 for i in range((x_limit+1)//2+1)]
-x_split_r = [0 for i in range((x_limit+1)//2+1)]
-y_split_l = [0 for i in range((y_limit+1)//2+1)]
-y_split_r = [0 for i in range((y_limit+1)//2+1)]
+# 변수 선언 및 입력:
+n = int(input())
+points = [
+    tuple(map(int, input().split()))
+    for _ in range(n)
+]
+ans = INT_MAX
 
-for x, y in xy_list:
-    x_list[x//2] += 1
-    y_list[y//2] += 1
+# x 기준 오름차순으로 정렬합니다.
+points.sort()
 
-#print(x_list)
-#print(y_list)
+# y = b를 먼저 설정합니다.
+for b in range(0, MAX_R + 1, 2):
+    # 1, 2, 3, 4 각 사분면에 
+    # 들어 있는 점의 개수를 관리합니다.
+    cnt = [0] * (MAX_Q + 1)
 
-x_split_l = [0] + x_list
-for i in range(1,len(x_split_l)):
-    x_split_l[i] = x_split_l[i] + x_split_l[i-1]
-#print(x_split_l)
+    # 먼저 x = 0일 때의
+    # 1, 2, 3, 4 각 사분면에
+    # 있는 점의 수를 계산합니다. 
+    # 모든 점은 x = 0 보다 오른쪽에 있으므로
+    # 이는 y좌표에 따라 1, 4 사분면으로 나뉘게 됩니다.
+    for _, y in points:
+        if y > b:
+            cnt[1] += 1
+        else:
+            cnt[4] += 1
 
-x_split_r = x_list + [0]
-for i in range(len(x_split_r)-2,-1,-1):
-    x_split_r[i] = x_split_r[i] + x_split_r[i+1]
-#print(x_split_r)
+    # 이제 x 기준 오름차순으로 정렬된 
+    # n개의 점을 보며 
+    # 각 점을 순서대로 왼쪽으로 보내며
+    # 1 -> 2 사분면으로
+    # 4 -> 3 사분면으로 점들의 위치를 보정해줍니다.
+    for i in range(n):
+        # 새로운 x값이 시작되는 경우에는
+        # 답을 갱신해줍니다.
+        if i == 0 or points[i][0] != points[i - 1][0]:
+            ans = min(ans, max(cnt))
+    
+        # 해당 점의 위치를 보정해줍니다.
+        _, y = points[i]
+        if y > b:
+            cnt[1] -= 1
+            cnt[2] += 1
+        else:
+            cnt[4] -= 1
+            cnt[3] += 1
 
-y_split_l = [0] + y_list
-for i in range(1,len(y_split_l)):
-    y_split_l[i] = y_split_l[i] + y_split_l[i-1]
-#print(y_split_l)
-
-y_split_r = y_list + [0]
-for i in range(len(y_split_r)-2,-1,-1):
-    y_split_r[i] = y_split_r[i] + y_split_r[i+1]
-#print(y_split_r)
-
-x_diff_min = 987654321
-y_diff_min = 987654321
-x_diff_idx = -1
-y_diff_dix = -1
-for i in range(len(x_split_l)):
-    if abs(x_split_l[i] - x_split_r[i]) < x_diff_min:
-        x_diff_min = abs(x_split_l[i] - x_split_r[i])
-        x_diff_idx = i
-
-#print(x_diff_min)
-#print(x_diff_idx)
-
-for i in range(len(y_split_l)):
-    if abs(y_split_l[i] - y_split_r[i]) < y_diff_min:
-        y_diff_min = abs(y_split_l[i] - y_split_r[i])
-        y_diff_idx = i
-
-#print(y_diff_min)
-#print(y_diff_idx)
-
-x_diff_idx *= 2
-y_diff_idx *= 2
-#print(x_diff_idx,y_diff_idx)
-
-q1, q2, q3, q4 = 0, 0, 0, 0
-for x,y in xy_list:
-    #print("x,y: ",x,y)
-    if x > x_diff_idx and y > y_diff_idx:
-        q1 += 1
-    elif x > x_diff_idx and y < y_diff_idx:
-        q2 += 1
-    elif x < x_diff_idx and y > y_diff_idx:
-        q3 += 1
-    else:
-        q4 += 1
-
-#print(q1,q2,q3,q4)
-print(max(q1,q2,q3,q4))
+print(ans)
