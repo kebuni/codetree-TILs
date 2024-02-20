@@ -35,6 +35,7 @@ def new_customer(t,x,name,sushi_num):
     if name not in sushies:
         sushies[name] = []
         sushies_num[name] = 0
+        last_sushi_time[name] = -1
 
     customers[name] = [t,x,sushi_num,-1]
     out_time = update_customer_out_time(name,x)
