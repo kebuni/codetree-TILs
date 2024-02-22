@@ -126,22 +126,40 @@ def santa_crash(i,x,y,d):
 def interaction(i,start_x,start_y,d):
 
     last_x, last_y = start_x, start_y
-    while in_range(last_x,last_y) and grid[last_x][last_y] != 0: #다른 산타가 있고 범위 안 이라면
+    while in_range(last_x,last_y) and grid[last_x][last_y] > 0: #다른 산타가 있고 범위 안 이라면
         last_x += dxs[d]
         last_y += dys[d]
 
-    if not in_range(last_x, last_y):
-        santa_alive[grid[last_x-dxs[d]][last_y-dys[d]]] = False
-        santa_loc[grid[last_x-dxs[d]][last_y-dys[d]]] = (INF, INF)
-        grid[last_x - dxs[d]][last_y - dys[d]] = 0
+    # if not in_range(last_x, last_y):
+    #     santa_alive[grid[last_x-dxs[d]][last_y-dys[d]]] = False
+    #     santa_loc[grid[last_x-dxs[d]][last_y-dys[d]]] = (INF, INF)
+    #     grid[last_x - dxs[d]][last_y - dys[d]] = 0
+    #
+    # cur_x, cur_y = last_x, last_y
+    #
+    # while cur_x != start_x or cur_y != start_y:
+    #     before_x, before_y = cur_x - dxs[d], cur_y - dys[d]
+    #     before_i = grid[before_x][before_y]
+    #     grid[cur_x][cur_y] = grid[before_x][before_y]
+    #     santa_loc[before_i] = (cur_x, cur_y)
+    #     cur_x = before_x
+    #     cur_y = before_y
 
     cur_x, cur_y = last_x, last_y
-
     while cur_x != start_x or cur_y != start_y:
         before_x, before_y = cur_x - dxs[d], cur_y - dys[d]
+
+        if not in_range(before_x,before_y):
+            break
+
         before_i = grid[before_x][before_y]
-        grid[cur_x][cur_y] = grid[before_x][before_y]
-        santa_loc[before_i] = (cur_x, cur_y)
+
+        if not in_range(cur_x,cur_y):
+            santa_alive[before_i] = False
+        else:
+            grid[cur_x][cur_y] = grid[before_x][before_y]
+            santa_loc[before_i] = (cur_x, cur_y)
+
         cur_x = before_x
         cur_y = before_y
 
