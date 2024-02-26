@@ -3,15 +3,11 @@ N = int(input())
 arr = list(input())
 
 ans = 0
-C_num = 0
-O_num = 0
 
-for elem in arr:
-    if elem == 'C':
-        C_num += 1
-    elif elem == 'O':
-        O_num += 1
-    elif elem == 'W':
-        ans += C_num * O_num
+for i in range(N):
+    for j in range(i+1,N):
+        for k in range(j+1,N):
+            if arr[i] == 'C' and arr[j] == 'O' and arr[k] =='W':
+                ans += 1
 
 print(ans)
