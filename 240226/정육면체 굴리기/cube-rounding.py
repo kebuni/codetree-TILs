@@ -43,7 +43,7 @@ def copy_num():
     global cube_num, grid
     d,f,r = cube
     if grid[cx][cy] == 0:
-        grid[cx][cy] = d
+        grid[cx][cy] = cube_num[d]
     else:
         cube_num[d] = grid[cx][cy]
         grid[cx][cy] = 0
