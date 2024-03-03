@@ -13,28 +13,19 @@ for _ in range(N):
 
 line.sort()
 #print(line)
+ans = -1
 
-def possible(x,s):
-    G_num = 0
-    H_num = 0
-    for i in range(s):
-        if line[x+i][1] == 1:
-            G_num += 1
-        else:
-            H_num += 1
+for i in range(N):
+    for j in range(i,N):
 
-    #print(x,s,":",G_num,H_num)
+        G_num, H_num = 0, 0
+        for k in range(i,j+1):
+            if line[k][1] == 1:
+                G_num += 1
+            else:
+                H_num += 1
+        if G_num == H_num or G_num == 0 or H_num == 0:
+            size = line[j][0] - line[i][0]
+            ans = max(ans,size)
 
-    if G_num == H_num:
-        return True
-    if G_num == 0:
-        return True
-    if H_num == 0:
-        return True
-    return False
-
-for s in range(N,0,-1):
-    for x in range(N-s+1):
-        if possible(x,s):
-            print(line[x+s-1][0] - line[x][0])
-            exit(0)
+print(ans)
