@@ -107,6 +107,9 @@ def copy_grid():
 #print_grid()
 
 for t in range(100):
+    if grid[R][C] == K:
+        print(ans)
+        sys.exit(0)
     clear_next_grid()
     simulate()
     copy_grid()
@@ -114,8 +117,5 @@ for t in range(100):
     #print(row_max,col_max)
     #print('-----------------')
     ans += 1
-    if grid[R][C] == K:
-        print(ans)
-        sys.exit(0)
 
 print(-1)
