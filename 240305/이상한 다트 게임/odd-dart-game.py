@@ -1,8 +1,10 @@
+NAN = -100
+
 N, M, Q = map(int,input().split())
-grid = [[0 for i in range(M+1)]]
+grid = [[NAN for i in range(M+1)]]
 query = []
 for i in range(N):
-    grid.append([0] + list(map(int,input().split())))
+    grid.append([NAN] + list(map(int,input().split())))
 for i in range(Q):
     query.append(tuple(map(int,input().split())))
 del_grid = [[False for i in range(M+1)] for j in range(N+1)]
@@ -22,7 +24,8 @@ def get_sum():
     sum = 0
     for i in range(N + 1):
         for j in range(M + 1):
-            sum += grid[i][j]
+            if grid[i][j] != NAN:
+                sum += grid[i][j]
     return sum
 
 def rotate(x,d,k):
@@ -58,23 +61,18 @@ def check_delete():
     dys = [0,1,0,-1]
 
     for x in range(1,N+1):
-        #print("x:",x)
-        if grid[x][0] == grid[x][M] and grid[x][0] != 0:
-            del_grid[x][0] = del_grid[x][M] = True
-
-    for x in range(1,N+1):
         for y in range(1,M+1):
-            for dx, dy in zip(dxs,dys):
-                nx, ny = x + dx, y + dy
-                if check_range(nx,ny):
-                    if grid[x][y] == grid[nx][ny] and grid[x][y] != 0:
-                        del_grid[x][y] = del_grid[nx][ny] = True
+            if grid[x][y] != NAN:
+                for dx, dy in zip(dxs,dys):
+                    nx, ny = x + dx, (y + dy + M) % M
+                    if check_range(nx,ny) and grid[nx][ny] == grid[x][y]:
+                        del_grid[nx][ny] = del_grid[x][y] = True
 
     for x in range(1,N+1):
         for y in range(1,M+1):
             if del_grid[x][y]:
                 result = False
-                grid[x][y] = 0
+                grid[x][y] = NAN
                 num -= 1
 
     return result
@@ -84,7 +82,7 @@ def normalize():
         avg = get_sum() // num
         for x in range(1,N+1):
             for y in range(1,M+1):
-                if grid[x][y]:
+                if grid[x][y] != NAN:
                     if grid[x][y] > avg:
                         grid[x][y] -= 1
                     elif grid[x][y] < avg:
