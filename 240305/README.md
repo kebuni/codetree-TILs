@@ -1,0 +1,73 @@
+# 📖 학습하기
+
+## 🚀 기업별 학습
+24년 03월 05일 목표(240px)를 달성했어요🥳.
+
+![460xp](https://img.shields.io/badge/EXP-460xp-%235cb85c.svg?for-the-badge)
+![1일째](https://img.shields.io/badge/연속학습-1일째-%23E34F26.svg?for-the-badge)
+
+|총 문제수|획득 경험치|연속 학습|
+|---:|---:|---|
+7|460xp|1일째🔥|
+
+|교재|이름|난이도|상태|최근 제출 코드|
+|---|---|:---:|:---:|---|
+|[SK / 완전탐색 / 격자 안에서 완전탐색](https://www.codetree.ai/missions?missionId=18)|[[개념]최고의 33위치](https://www.codetree.ai/missions/18/problems/best-place-of-33)|![쉬움][easy]|![Passed][passed]|[링크](https://github.com/kebuni/codetree-TILs/blob/main/240305/%EC%B5%9C%EA%B3%A0%EC%9D%98%2033%EC%9C%84%EC%B9%98/best-place-of-33.py)|
+|[SK / 완전탐색 / 격자 안에서 완전탐색](https://www.codetree.ai/missions?missionId=18)|[[연습]행복한 수열의 개수](https://www.codetree.ai/missions/18/problems/number-of-happy-sequence)|![쉬움][easy]|![Passed][passed]|[링크](https://github.com/kebuni/codetree-TILs/blob/main/240305/%ED%96%89%EB%B3%B5%ED%95%9C%20%EC%88%98%EC%97%B4%EC%9D%98%20%EA%B0%9C%EC%88%98/number-of-happy-sequence.py)|
+|[SK / 완전탐색 / 격자 안에서 완전탐색](https://www.codetree.ai/missions?missionId=18)|[[연습]트로미노](https://www.codetree.ai/missions/18/problems/tromino)|![보통][medium]|![Passed][passed]|[링크](https://github.com/kebuni/codetree-TILs/blob/main/240305/%ED%8A%B8%EB%A1%9C%EB%AF%B8%EB%85%B8/tromino.py)|
+|[SK / 완전탐색 / 격자 안에서 완전탐색](https://www.codetree.ai/missions?missionId=18)|[[연습]금 채굴하기](https://www.codetree.ai/missions/18/problems/gold-mining)|![보통][medium]|![Passed][passed]|[링크](https://github.com/kebuni/codetree-TILs/blob/main/240305/%EA%B8%88%20%EC%B1%84%EA%B5%B4%ED%95%98%EA%B8%B0/gold-mining.py)|
+|[SK / 완전탐색 / 격자 안에서 완전탐색](https://www.codetree.ai/missions?missionId=18)|[[연습]기울어진 직사각형](https://www.codetree.ai/missions/18/problems/slanted-rectangle)|![어려움][hard]|![Passed][passed]|[링크](https://github.com/kebuni/codetree-TILs/blob/main/240305/%EA%B8%B0%EC%9A%B8%EC%96%B4%EC%A7%84%20%EC%A7%81%EC%82%AC%EA%B0%81%ED%98%95/slanted-rectangle.py)|
+|[SK / 완전탐색 / 격자 안에서 완전탐색](https://www.codetree.ai/missions?missionId=18)|[[연습]겹쳐지지 않는 두 직사각형](https://www.codetree.ai/missions/18/problems/non-overlapping-two-rectangles)|![어려움][hard]|![Passed][passed]|[링크](https://github.com/kebuni/codetree-TILs/blob/main/240305/%EA%B2%B9%EC%B3%90%EC%A7%80%EC%A7%80%20%EC%95%8A%EB%8A%94%20%EB%91%90%20%EC%A7%81%EC%82%AC%EA%B0%81%ED%98%95/non-overlapping-two-rectangles.py)|
+|[SK / 완전탐색 / 격자 안에서 완전탐색](https://www.codetree.ai/missions?missionId=18)|[[테스트]양수 직사각형의 최대 크기](https://www.codetree.ai/missions/18/problems/max-area-of-positive-rectangle)|![보통][medium]|![Passed][passed]|[링크](https://github.com/kebuni/codetree-TILs/blob/main/240305/%EC%96%91%EC%88%98%20%EC%A7%81%EC%82%AC%EA%B0%81%ED%98%95%EC%9D%98%20%EC%B5%9C%EB%8C%80%20%ED%81%AC%EA%B8%B0/max-area-of-positive-rectangle.py)|
+
+
+* 획득 경험치: 해설을 보지 않고 푼 문제에 한해 최초 1회 경험치를 획득하실 수 있습니다.
+* 연속 학습🔥: 경험치를 획득한 날을 학습한 날로 인정합니다.
+
+
+# 🥇 실전 훈련
+|총 문제 수|티어|유형|
+|---:|---|---|
+|4|![Gold3][g3] ~ ![Gold2][g2]|`Backtracking` `Simulation`|
+
+|기록분류|이름|티어|유형|상태|최근 제출 코드|
+|---|---|---|---|---|---|
+|기출문제|[종전](https://www.codetree.ai/training-field/frequent-problems/problems/war-finish)|![Gold3][g3]|`Simulation`|![Passed][passed]|[링크](https://github.com/kebuni/codetree-TILs/blob/main/240305/%EC%A2%85%EC%A0%84/war-finish.py)|
+|기출문제|[이상한 윷놀이](https://www.codetree.ai/training-field/frequent-problems/problems/odd-woodstick-game)|![Gold3][g3]|`Simulation`|![Passed][passed]|[링크](https://github.com/kebuni/codetree-TILs/blob/main/240305/%EC%9D%B4%EC%83%81%ED%95%9C%20%EC%9C%B7%EB%86%80%EC%9D%B4/odd-woodstick-game.py)|
+|기출문제|[이상한 다트 게임](https://www.codetree.ai/training-field/frequent-problems/problems/odd-dart-game)|![Gold3][g3]|`Simulation`|![Passed][passed]|[링크](https://github.com/kebuni/codetree-TILs/blob/main/240305/%EC%9D%B4%EC%83%81%ED%95%9C%20%EB%8B%A4%ED%8A%B8%20%EA%B2%8C%EC%9E%84/odd-dart-game.py)|
+|기출문제|[윷놀이 사기단](https://www.codetree.ai/training-field/frequent-problems/problems/woodstick-fraud)|![Gold2][g2]|`Backtracking` `Simulation`|![Passed][passed]|[링크](https://github.com/kebuni/codetree-TILs/blob/main/240305/%EC%9C%B7%EB%86%80%EC%9D%B4%20%EC%82%AC%EA%B8%B0%EB%8B%A8/woodstick-fraud.py)|
+
+
+
+
+
+
+
+
+
+
+[b5]: https://img.shields.io/badge/Bronze_5-%235D3E31.svg
+[b4]: https://img.shields.io/badge/Bronze_4-%235D3E31.svg
+[b3]: https://img.shields.io/badge/Bronze_3-%235D3E31.svg
+[b2]: https://img.shields.io/badge/Bronze_2-%235D3E31.svg
+[b1]: https://img.shields.io/badge/Bronze_1-%235D3E31.svg
+[s5]: https://img.shields.io/badge/Silver_5-%23394960.svg
+[s4]: https://img.shields.io/badge/Silver_4-%23394960.svg
+[s3]: https://img.shields.io/badge/Silver_3-%23394960.svg
+[s2]: https://img.shields.io/badge/Silver_2-%23394960.svg
+[s1]: https://img.shields.io/badge/Silver_1-%23394960.svg
+[g5]: https://img.shields.io/badge/Gold_5-%23FFC433.svg
+[g4]: https://img.shields.io/badge/Gold_4-%23FFC433.svg
+[g3]: https://img.shields.io/badge/Gold_3-%23FFC433.svg
+[g2]: https://img.shields.io/badge/Gold_2-%23FFC433.svg
+[g1]: https://img.shields.io/badge/Gold_1-%23FFC433.svg
+[p5]: https://img.shields.io/badge/Platinum_5-%2376DDD8.svg
+[p4]: https://img.shields.io/badge/Platinum_4-%2376DDD8.svg
+[p3]: https://img.shields.io/badge/Platinum_3-%2376DDD8.svg
+[p2]: https://img.shields.io/badge/Platinum_2-%2376DDD8.svg
+[p1]: https://img.shields.io/badge/Platinum_1-%2376DDD8.svg
+[passed]: https://img.shields.io/badge/Passed-%23009D27.svg
+[failed]: https://img.shields.io/badge/Failed-%23D24D57.svg
+[easy]: https://img.shields.io/badge/쉬움-%235cb85c.svg?for-the-badge
+[medium]: https://img.shields.io/badge/보통-%23FFC433.svg?for-the-badge
+[hard]: https://img.shields.io/badge/어려움-%23D24D57.svg?for-the-badge
