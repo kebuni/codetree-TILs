@@ -2,7 +2,7 @@ N, M = map(int,input().split())
 
 grid = [list(map(int,input().split())) for _ in range(N)]
 
-ans = 0
+ans = -1
 
 def check(x1,y1,x2,y2):
     for i in range(x1,x2+1):
