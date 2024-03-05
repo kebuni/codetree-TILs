@@ -1,4 +1,4 @@
-NAN = -100
+NAN = 0
 
 N, M, Q = map(int,input().split())
 grid = [[NAN for i in range(M+1)]]
@@ -25,7 +25,7 @@ def get_sum():
     for i in range(N + 1):
         for j in range(M + 1):
             if grid[i][j] != NAN:
-                sum += grid[i][j]
+                 sum += grid[i][j]
     return sum
 
 def rotate(x,d,k):
@@ -63,13 +63,21 @@ def check_delete():
     for x in range(1,N+1):
         for y in range(1,M+1):
             if grid[x][y] != NAN:
+                #print("now looking...", x, y, grid[x][y])
                 for dx, dy in zip(dxs,dys):
-                    nx, ny = x + dx, (y + dy + M) % M
+                    nx, ny = x + dx, (y + dy) % M
+                    if ny == 0:
+                        ny = M
+                    #print("trying...",nx,ny)
                     if check_range(nx,ny) and grid[nx][ny] == grid[x][y]:
-                        del_grid[nx][ny] = del_grid[x][y] = True
+                        #print("same!!", nx, ny, grid[nx][ny])
+                        del_grid[nx][ny] = True
+                        del_grid[x][y] = True
 
-    for x in range(1,N+1):
-        for y in range(1,M+1):
+    #print_del_grid()
+
+    for x in range(N+1):
+        for y in range(M+1):
             if del_grid[x][y]:
                 result = False
                 grid[x][y] = NAN
@@ -80,6 +88,7 @@ def check_delete():
 def normalize():
     if num>0:
         avg = get_sum() // num
+        #print("avg:",avg)
         for x in range(1,N+1):
             for y in range(1,M+1):
                 if grid[x][y] != NAN:
@@ -95,6 +104,13 @@ def clear_del_grid():
             del_grid[i][j] = False
     return
 
+def print_del_grid():
+    for i in range(N+1):
+        for j in range(M+1):
+            print(del_grid[i][j],end=' ')
+        print()
+    print()
+
 def check_range(x,y):
     return 0<x<=N and 0<y<=M
 
@@ -104,10 +120,13 @@ def check_range(x,y):
 
 for x, d, k in query:
     rotate(x,d,k)
+    #print("after rotate:")
+    #print_grid()
     if check_delete():
         #print('check!')
         normalize()
 
+    #print(num)
     #print_grid()
 
 print(get_sum())
