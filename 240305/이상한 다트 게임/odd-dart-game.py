@@ -58,8 +58,9 @@ def check_delete():
     dys = [0,1,0,-1]
 
     for x in range(1,N+1):
-        if grid[x][0] == grid[x][N] and grid[x][0] != 0:
-            del_grid[x][0] = del_grid[x][N] = True
+        #print("x:",x)
+        if grid[x][0] == grid[x][M] and grid[x][0] != 0:
+            del_grid[x][0] = del_grid[x][M] = True
 
     for x in range(1,N+1):
         for y in range(1,M+1):
@@ -83,10 +84,11 @@ def normalize():
         avg = get_sum() // num
         for x in range(1,N+1):
             for y in range(1,M+1):
-                if grid[x][y] > avg:
-                    grid[x][y] -= 1
-                elif grid[x][y] < avg:
-                    grid[x][y] += 1
+                if grid[x][y]:
+                    if grid[x][y] > avg:
+                        grid[x][y] -= 1
+                    elif grid[x][y] < avg:
+                        grid[x][y] += 1
     return
 
 def clear_del_grid():
@@ -96,9 +98,11 @@ def clear_del_grid():
     return
 
 def check_range(x,y):
-    return 0<x<N and 0<y<M
+    return 0<x<=N and 0<y<=M
 
 ########################################################
+
+#print_grid()
 
 for x, d, k in query:
     rotate(x,d,k)
