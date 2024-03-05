@@ -27,8 +27,8 @@ def get_sum(x,y,r,l):
 
 for x in range(2,N):
     for y in range(1,N-1):
-        for r in range(N):
-            for l in range(N):
+        for r in range(1,N):
+            for l in range(1,N):
                 if check_validity(x,y,r,l):
                     ans = max(ans,get_sum(x,y,r,l))
 
