@@ -41,6 +41,15 @@ def get_next_loc(cur_loc, move_num, is_blue):
 
 def check_blue(n):
     return n == 5 or n == 10 or n == 15
+
+def overlapped():
+    return any([
+        player_loc[i] == player_loc[j] and
+        player_loc[i] != 0 and player_loc[i] != END
+        for i in range(4)
+        for j in range(i+1,4)
+    ])
+
 def find_max_score(n, current_score):
     if n == 10:
         global ans
@@ -55,9 +64,9 @@ def find_max_score(n, current_score):
         temp = player_loc[:]
         cur_loc = player_loc[i]
         next_loc = get_next_loc(cur_loc,player_nums[n],check_blue(cur_loc))
+        player_loc[i] = next_loc
 
-        if next_loc not in player_loc:
-            player_loc[i] = next_loc
+        if not overlapped():
             find_max_score(n+1, current_score + board[next_loc])
 
         for i in range(4):
