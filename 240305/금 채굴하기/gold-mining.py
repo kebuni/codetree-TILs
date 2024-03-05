@@ -57,7 +57,7 @@ def print_visited():
 
 for x in range(N):
     for y in range(N):
-        for s in range(1,N+1):
+        for s in range(1,N+2):
             cur_size = 0
             clear_visited()
             push(x,y,s)
