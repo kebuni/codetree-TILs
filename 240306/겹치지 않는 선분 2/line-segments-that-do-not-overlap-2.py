@@ -4,7 +4,7 @@ ans = 0
 
 for i in range(N):
     si, ei = lines[i]
-    not_overlap = True
+    overlap = False
     for j in range(N):
 
         if j == i:
@@ -12,25 +12,11 @@ for i in range(N):
 
         sj, ej = lines[j]
 
-        if si <= sj <= ej <= ei:
-            not_overlap = False
-        if ei <= sj <= ej <= si:
-            not_overlap = False
-        if si <= ej <= sj <= ei:
-            not_overlap = False
-        if ei <= ej <= sj <= si:
-            not_overlap = False
+        if (si <= sj and ei >= ej) or (si >= sj and ei <= ej):
+            overlap = True
+            break
 
-        if sj <= si <= ei <= ej:
-            not_overlap = False
-        if ej <= si <= ei <= sj:
-            not_overlap = False
-        if sj <= ei <= si <= ej:
-            not_overlap = False
-        if ej <= ei <= si <= sj:
-            not_overlap = False
-
-    if not_overlap:
+    if not overlap:
         ans += 1
 
 print(ans)
