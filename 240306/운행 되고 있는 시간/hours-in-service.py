@@ -3,7 +3,7 @@ employees = [tuple(map(int,input().split())) for _ in range(N)]
 ans = 0
 
 for i in range(N):
-    temp = [0 for _ in range(101)]
+    temp = [0 for _ in range(1001)]
     for j in range(N):
         if j == i:
             continue
