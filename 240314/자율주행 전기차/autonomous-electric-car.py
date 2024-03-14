@@ -1,5 +1,5 @@
 from collections import deque
-OUT_OF_RANGE = 100
+OUT_OF_RANGE = 9999999
 
 dxs = [-1,0,1,0]
 dys = [0,-1,0,1]
