@@ -1,5 +1,5 @@
 from collections import deque
-OUT_OF_RANGE = 9999999
+OUT_OF_RANGE = 987654321
 
 dxs = [-1,0,1,0]
 dys = [0,-1,0,1]
@@ -8,15 +8,18 @@ q = deque()
 N, M, C = map(int,input().split())
 remain_fuel = C
 grid = [list(map(int,input().split())) for i in range(N)]
-start_grid = [[0 for i in range(N)] for j in range(N)]
-end_grid = [[0 for i in range(N)] for j in range(N)]
+#start_grid = [[0 for i in range(N)] for j in range(N)]
+#end_grid = [[0 for i in range(N)] for j in range(N)]
+customers = [(OUT_OF_RANGE,OUT_OF_RANGE,OUT_OF_RANGE,OUT_OF_RANGE)]
 visited = [[False for i in range(N)] for j in range(N)]
 step = [[-1 for i in range(N)] for j in range(N)]
 cx, cy = map(lambda x:int(x)-1,input().split())
 for i in range(M):
     xs, ys, xe, ye = map(int,input().split())
-    start_grid[xs - 1][ys - 1] = i + 1
-    end_grid[xe - 1][ye - 1] = i + 1
+    #start_grid[xs - 1][ys - 1] = i + 1
+    #end_grid[xe - 1][ye - 1] = i + 1
+    customers.append((xs-1,ys-1,xe-1,ye-1))
+    #print(i+1,xe-1,ye-1)
 
 arrived = [False for i in range(M+1)]
 
@@ -59,18 +62,31 @@ def find_next_customer():
             if can_go(nx,ny):
                 push(nx,ny,step[x][y] + 1)
 
-    for x in range(N):
-        for y in range(N):
-            if start_grid[x][y] and step[x][y] != -1:
-                if step[x][y] < min_dist:
-                    result = start_grid[x][y]
-                    result_x, result_y = x,y
-                    min_dist = step[x][y]
-                    #print("here!", step[x][y], "so result is now", result)
+    for idx in range(1,M+1):
+        if not arrived[idx]:
+            sx, sy, ex, ey = customers[idx]
+            if step[sx][sy] != -1:
+                if (step[sx][sy],sx,sy) < (min_dist,result_x,result_y):
+                    result = idx
+                    result_x, result_y = sx, sy
+                    min_dist = step[sx][sy]
+
+    # for x in range(N):
+    #     for y in range(N):
+    #         if start_grid[x][y] and step[x][y] != -1:
+    #             if step[x][y] < min_dist:
+    #                 result = start_grid[x][y]
+    #                 result_x, result_y = x,y
+    #                 min_dist = step[x][y]
+    #                 #print("here!", step[x][y], "so result is now", result)
 
     return result, result_x, result_y
 
 def can_go_to(dest_x,dest_y):
+
+    if (dest_x,dest_y) == (OUT_OF_RANGE,OUT_OF_RANGE):
+        return False
+
     clear_visited_and_step()
     push(cx, cy, 0)
     while q:
@@ -92,19 +108,22 @@ def go_to(dx,dy):
     return step[dx][dy]
 
 def find_destination(idx):
-    for x in range(N):
-        for y in range(N):
-            if end_grid[x][y] == idx:
-                return x, y
-    return OUT_OF_RANGE, OUT_OF_RANGE
+    sx, sy, ex, ey = customers[idx]
+    return ex, ey
+    # for x in range(N):
+    #     for y in range(N):
+    #         if end_grid[x][y] == idx:
+    #             return x, y
+    # return OUT_OF_RANGE, OUT_OF_RANGE
 
 def update_grid(idx):
-    for x in range(N):
-        for y in range(N):
-            if start_grid[x][y] == idx:
-                start_grid[x][y] = 0
-            if end_grid[x][y] == idx:
-                end_grid[x][y] = 0
+    customers[idx] = (OUT_OF_RANGE,OUT_OF_RANGE,OUT_OF_RANGE,OUT_OF_RANGE)
+    # for x in range(N):
+    #     for y in range(N):
+    #         if start_grid[x][y] == idx:
+    #             start_grid[x][y] = 0
+    #         if end_grid[x][y] == idx:
+    #             end_grid[x][y] = 0
 
     arrived[idx] = True
     return
@@ -132,17 +151,17 @@ def clear_q():
         q.popleft()
     return
 
-def print_grids():
-    for i in range(N):
-        for j in range(N):
-            print(start_grid[i][j],end=' ')
-        print()
-    print()
-    for i in range(N):
-        for j in range(N):
-            print(end_grid[i][j],end=' ')
-        print()
-    print()
+# def print_grids():
+#     for i in range(N):
+#         for j in range(N):
+#             print(start_grid[i][j],end=' ')
+#         print()
+#     print()
+#     for i in range(N):
+#         for j in range(N):
+#             print(end_grid[i][j],end=' ')
+#         print()
+#     print()
 
 ##########################################
 
@@ -152,10 +171,11 @@ success = False
 while True:
     customer_idx, sx, sy = find_next_customer()
     if customer_idx == OUT_OF_RANGE:
+        # print("here!")
         break
 
     # print("------------------------------")
-    # print("next_customer : ", customer_idx)
+    # print("next_customer : ", customer_idx,sx,sy)
 
     if can_go_to(sx,sy):
         _ = go_to(sx,sy)
@@ -181,7 +201,7 @@ while True:
     # print("after arrival")
     # print(remain_fuel)
     # print(arrived)
-    # print_grids()
+    #print_grids()
 
     if check_end():
         ans = remain_fuel
