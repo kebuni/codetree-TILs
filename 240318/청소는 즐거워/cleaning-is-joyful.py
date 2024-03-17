@@ -22,12 +22,29 @@ out_of_grid_dust = 0
 #               (2,0,0.02),
 #               (-1,1,0.01),
 #               (1,1,0.01)]
-
+sweep_infos = []
 sweep_info = [[0,0,0.02,0,0],
               [0,0.1,0.07,0.01,0],
               [0.05,0,0,0,0],
               [0,0.1,0.07,0.01,0],
               [0,0,0.02,0,0]]
+
+sweep_infos.append(sweep_info)
+result = [[0 for i in range(5)] for j in range(5)]
+for i in range(5):
+    for j in range(5):
+        result[4 - j][i] = sweep_info[i][j]
+sweep_infos.append(result)
+result = [[0 for i in range(5)] for j in range(5)]
+for i in range(5):
+    for j in range(5):
+        result[4 - i][4 - j] = sweep_info[i][j]
+sweep_infos.append(result)
+result = [[0 for i in range(5)] for j in range(5)]
+for i in range(5):
+    for j in range(5):
+        result[j][4 - i] = sweep_info[i][j]
+sweep_infos.append(result)
 
 ##########################################
 
@@ -38,7 +55,7 @@ def sweep(x,y,d):
     global out_of_grid_dust
     clear_delta()
 
-    sweep_grid = get_sweep_grid(d)
+    #sweep_grid = get_sweep_grid(d)
 
     cur_dust = grid[x][y]
     moved_dust = 0
@@ -46,11 +63,11 @@ def sweep(x,y,d):
         for dy in range(-2,3):
             nx,ny = x + dx, y+dy
             if in_range(nx,ny):
-                delta[nx][ny] = math.floor(cur_dust * sweep_grid[dx+2][dy+2])
-                moved_dust += math.floor(cur_dust * sweep_grid[dx+2][dy+2])
+                delta[nx][ny] = math.floor(cur_dust * sweep_infos[d][dx+2][dy+2])
+                moved_dust += math.floor(cur_dust * sweep_infos[d][dx+2][dy+2])
             else:
-                out_of_grid_dust += math.floor(cur_dust * sweep_grid[dx+2][dy+2])
-                moved_dust += math.floor(cur_dust * sweep_grid[dx + 2][dy + 2])
+                out_of_grid_dust += math.floor(cur_dust * sweep_infos[d][dx+2][dy+2])
+                moved_dust += math.floor(cur_dust * sweep_infos[d][dx + 2][dy + 2])
 
     nx = x + dxs[d]
     ny = y + dys[d]
@@ -64,25 +81,7 @@ def sweep(x,y,d):
 
     return
 
-def get_sweep_grid(d):
-    result = [[0 for i in range(5)] for j in range(5)]
-    if d == 0:
-        for i in range(5):
-            for j in range(5):
-                result[i][j] = sweep_info[i][j]
-    elif d == 1:
-        for i in range(5):
-            for j in range(5):
-                result[4-j][i] = sweep_info[i][j]
-    elif d == 2:
-        for i in range(5):
-            for j in range(5):
-                result[4-i][4-j] = sweep_info[i][j]
-    else:
-        for i in range(5):
-            for j in range(5):
-                result[j][4-i] = sweep_info[i][j]
-    return result
+
 
 def clear_delta():
     for x in range(N):
