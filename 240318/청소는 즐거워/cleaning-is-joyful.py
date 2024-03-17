@@ -1,8 +1,6 @@
-import math
-
 N = int(input())
 grid = [list(map(int,input().split())) for i in range(N)]
-delta = [[0 for i in range(N)] for j in range(N)]
+#delta = [[0 for i in range(N)] for j in range(N)]
 
 dist_list = []
 for i in range(1,N):
@@ -61,7 +59,7 @@ def in_range(x,y):
 
 def sweep(x,y,d):
     global out_of_grid_dust
-    clear_delta()
+    #clear_delta()
 
     #sweep_grid = get_sweep_grid(d)
 
@@ -71,7 +69,7 @@ def sweep(x,y,d):
         for dy in range(-2,3):
             nx,ny = x + dx, y+dy
             if in_range(nx,ny):
-                delta[nx][ny] = cur_dust * dust_ratio[d][dx+2][dy+2] // 100
+                grid[nx][ny] += cur_dust * dust_ratio[d][dx+2][dy+2] // 100
                 moved_dust += cur_dust * dust_ratio[d][dx+2][dy+2] // 100
             else:
                 out_of_grid_dust += cur_dust * dust_ratio[d][dx+2][dy+2] // 100
@@ -80,26 +78,26 @@ def sweep(x,y,d):
     nx = x + dxs[d]
     ny = y + dys[d]
     if in_range(nx,ny):
-        delta[nx][ny] = cur_dust - moved_dust
+        grid[nx][ny] += cur_dust - moved_dust
     else:
         out_of_grid_dust += cur_dust - moved_dust
-    delta[x][y] = -cur_dust
+    grid[x][y] = 0
 
-    sum_delta()
+    #sum_delta()
 
     return
 
 
 
-def clear_delta():
-    for x in range(N):
-        for y in range(N):
-            delta[x][y] = 0
-
-def sum_delta():
-    for x in range(N):
-        for y in range(N):
-            grid[x][y] += delta[x][y]
+# def clear_delta():
+#     for x in range(N):
+#         for y in range(N):
+#             delta[x][y] = 0
+#
+# def sum_delta():
+#     for x in range(N):
+#         for y in range(N):
+#             grid[x][y] += delta[x][y]
 
 def print_grid():
     for x in range(N):
@@ -116,6 +114,7 @@ for dist in dist_list:
     for i in range(dist):
         cur_x = cur_x + dxs[cur_d]
         cur_y = cur_y + dys[cur_d]
+        #print(cur_x,cur_y,cur_d)
         sweep(cur_x,cur_y,cur_d)
         #print_grid()
         #print(out_of_grid_dust)
