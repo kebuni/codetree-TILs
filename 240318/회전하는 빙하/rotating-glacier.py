@@ -8,7 +8,7 @@ visited = [[False for i in range(N)] for j in range(N)]
 rotate_list = list(map(int,input().split()))
 
 q = deque()
-max_size = -1
+max_size = 0
 cur_size = 0
 
 dxs = [-1,0,1,0]
