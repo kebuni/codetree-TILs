@@ -89,8 +89,9 @@ def get_bomb_size(x,y):
         for dx, dy in zip(dxs,dys):
             nx, ny = x + dx, y + dy
             if can_go(nx,ny,cur):
-                max_row = max(max_row,nx)
-                min_col = min(min_col,ny)
+                if grid[nx][ny] != RED:
+                    max_row = max(max_row,nx)
+                    min_col = min(min_col,ny)
                 push(nx,ny)
 
     return (cur_size, -cur_red_size, max_row, -min_col)
