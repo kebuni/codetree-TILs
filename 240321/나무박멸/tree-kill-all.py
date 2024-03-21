@@ -87,11 +87,14 @@ def kill_tree():
                     result_pos = temp_pos[:]
 
     global killed_tree
+    if max_kill_num == -1:
+        max_kill_num = 0
     killed_tree += max_kill_num
 
     for x, y in result_pos:
-        grid[x][y] = 0
-        chemical[x][y] = C + 1
+        if grid[x][y] != -1:
+            grid[x][y] = 0
+            chemical[x][y] = C + 1
 
     return
 
