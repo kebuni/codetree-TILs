@@ -1,3 +1,6 @@
+import sys
+sys.setrecursionlimit(5000)
+
 N = int(input())
 
 visited = [False for i in range(N+1)]
