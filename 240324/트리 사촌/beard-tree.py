@@ -40,16 +40,16 @@ while i < N:
     i = j + 1
     parent_idx += 1
 
-# print(edge)
+# print("edge",edge)
 
 target_idx = arr.index(K)
-# print(target_idx)
+# print("target_idx",target_idx)
 
 push(0)
 dfs(0)
 
-# print(parent)
-# print(depth)
+# print("parent",parent)
+# print("depth",depth)
 
 depth_of_target = depth[target_idx]
 parent_of_target = parent[target_idx]
@@ -57,7 +57,11 @@ ans = 0
 for i in range(N):
     if i == depth_of_target:
         continue
-    if depth[i] == depth_of_target and parent[i] != parent_of_target:
+
+    if parent[i] == -1:
+        continue
+
+    if parent[i] != parent_of_target and parent[parent[i]] == parent[parent_of_target]:
         ans += 1
 
 print(ans)
