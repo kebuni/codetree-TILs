@@ -1,3 +1,6 @@
+import sys
+sys.setrecursionlimit(100000)
+
 N = int(input())
 
 edge = [[] for i in range(N)]
