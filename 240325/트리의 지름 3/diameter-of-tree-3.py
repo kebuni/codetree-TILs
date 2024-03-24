@@ -5,49 +5,50 @@ N = int(input())
 edge = [[] for i in range(N+1)]
 visited = [False for i in range(N+1)]
 dist_list = [0 for i in range(N+1)]
+max_dist = 0
+last_node = 0
+a, b, ans = 0, 0, 0
 
 for i in range(N-1):
     a, b, d = map(int,input().split())
     edge[a].append((b,d))
     edge[b].append((a,d))
 
-def dfs(cur):
+def dfs(cur,ignore):
+    global max_dist, last_node
     visited[cur] = True
     for next, dist in edge[cur]:
         if not visited[next]:
             dist_list[next] = dist_list[cur] + dist
-            dfs(next)
 
-dfs(1)
-max_dist = 0
-max_idx1 = -1
-for i in range(1,N+1):
-    if dist_list[i] > max_dist:
-        max_dist = dist_list[i]
-        max_idx1 = i
+            if dist_list[next] > max_dist and next != ignore:
+                max_dist = dist_list[next]
+                last_node = next
 
-visited = [False for i in range(N+1)]
-dist_list = [0 for i in range(N+1)]
+            dfs(next,ignore)
 
-dfs(max_idx1)
-max_dist = 0
-max_idx2 = -1
-for i in range(1,N+1):
-    if dist_list[i] > max_dist:
-        max_dist = dist_list[i]
-        max_idx2 = i
-
-candidate1 = 0
-for i in range(1,N+1):
-    if i == max_idx2:
-        continue
-    candidate1 = max(candidate1,dist_list[i])
+dfs(1,-1)
+a = last_node
 
 visited = [False for i in range(N+1)]
 dist_list = [0 for i in range(N+1)]
-dfs(max_idx2)
+max_dist = -1
 
-dist_list.sort(reverse=True)
-candidate2 = dist_list[1]
+dfs(a,-1)
+b = last_node
 
-print(max(candidate1,candidate2))
+visited = [False for i in range(N+1)]
+dist_list = [0 for i in range(N+1)]
+max_dist = -1
+
+dfs(a,b)
+ans = max(ans,max_dist)
+
+visited = [False for i in range(N+1)]
+dist_list = [0 for i in range(N+1)]
+max_dist = -1
+
+dfs(b,a)
+ans = max(ans,max_dist)
+
+print(ans)
