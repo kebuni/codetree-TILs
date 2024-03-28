@@ -34,7 +34,7 @@ def remove_head(b_num):
         _id = head[b_num]
         head[b_num] = tail[b_num] = -1
         gift_num[b_num] = 0
-        return
+        return _id
 
     hid = head[b_num]
     next_head = next[hid]
