@@ -113,7 +113,7 @@ def get_gift_info(p_num):
     return
 
 def get_belt_info(b_num):
-    print(head[b_num] + 2*tail[b_num] + 3*gift_num[b_num])
+    print(head[b_num] + 2*tail[b_num] + 3*int(gift_num[b_num]))
     return
 
 ############################
