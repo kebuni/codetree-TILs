@@ -1,4 +1,5 @@
 from collections import defaultdict
+MAX_M = 100000
 
 Q = int(input())
 first_command = list(map(int,input().split()))
@@ -6,8 +7,7 @@ N, M = first_command[1], first_command[2]
 head = [-1 for i in range(N+1)]
 tail = [-1 for i in range(N+1)]
 gift_num = [0 for i in range(N+1)]
-next = defaultdict(lambda : -1)
-prev = defaultdict(lambda : -1)
+prev, next = [-1] * (MAX_M + 1), [-1] * (MAX_M + 1)
 
 factory = [[] for i in range(N+1)]
 for id in range(1,M+1):
