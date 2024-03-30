@@ -5,26 +5,23 @@ command = list(map(int,input().split()))
 N, M, P = command[1], command[2], command[3]
 dist = {}
 score = {}
-selected = {}
 rabit_q = []
 for i in range(P):
     pid = command[2*i+4]
     d = command[2*i+4+1]
     dist[pid] = d
     score[pid] = 0
-    selected[pid] = False
     heapq.heappush(rabit_q,(0,0,0,0,pid))
 
 #############################
 
 def race(K,S):
 
-    for id in selected:
-        selected[id] = False
+    best_rabit = -1
+    best_record = (-1,-1,-1,-1)
 
     for i in range(K):
         jump_num, _, x, y, pid2 = heapq.heappop(rabit_q)
-        selected[pid2] = True
         d = dist[pid2]
         candidate = []
 
@@ -51,7 +48,9 @@ def race(K,S):
         _, bx, by = max(candidate)
         heapq.heappush(rabit_q,(jump_num+1,bx+by,bx,by,pid2))
 
-
+        if (bx+by,bx,by,pid2) > best_record:
+            best_rabit = pid2
+            best_record = (bx+by,bx,by,pid2)
         #print("pid2:",pid2)
 
         # 나머지 토끼들에게 점수 추가
@@ -63,23 +62,13 @@ def race(K,S):
         # print("race",i)
         # print(rabit_q)
         # print(score)
-        # print(selected)
         # print(dist)
 
-    temp_q = []
-    for j, xy, x, y, pid3 in rabit_q:
-        heapq.heappush(temp_q,(-(x+y),-x,-y,-pid3))
-
-    while True:
-        _, _, _, pid3 = heapq.heappop(temp_q)
-        if selected[-pid3]:
-            score[-pid3] += S
-            break
+    score[best_rabit] += S
 
     # print("after race")
     # print(rabit_q)
     # print(score)
-    # print(selected)
     # print(dist)
 
     return
