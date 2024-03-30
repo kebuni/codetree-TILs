@@ -164,7 +164,7 @@ def update_recent_attack(attacker):
 
 def update_broken():
     for x in range(N):
-        for y in range(N):
+        for y in range(M):
             if turret[x][y] <= 0:
                 turret[x][y] = 0
                 broken[x][y] = True
