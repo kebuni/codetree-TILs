@@ -13,9 +13,12 @@ for i in range(P):
     score[pid] = 0
     heapq.heappush(rabit_q,(0,0,0,0,pid))
 
+total_sum = 0
+
 #############################
 
 def race(K,S):
+    global total_sum
 
     best_rabit = -1
     best_record = (-1,-1,-1,-1)
@@ -54,10 +57,12 @@ def race(K,S):
         #print("pid2:",pid2)
 
         # 나머지 토끼들에게 점수 추가
-        for sid in score:
-            if sid != pid2:
-                #print("add_score to",sid)
-                score[sid] += (bx+by+2)
+        # for sid in score:
+        #     if sid != pid2:
+        #         #print("add_score to",sid)
+        #         score[sid] += (bx+by+2)
+        total_sum += (bx+by+2)
+        score[pid2] -= (bx+by+2)
 
         # print("race",i)
         # print(rabit_q)
@@ -91,15 +96,12 @@ def find_dest_y(y):
 
 def change_dist(pid,L):
     dist[pid] *= L
-    # print("after change dist")
-    # print(rabit_q)
-    # print(dist)
     return
 
 def print_best_rabit():
     best_score = 0
     for pid, s in score.items():
-        best_score = max(best_score,s)
+        best_score = max(best_score,s+total_sum)
     print(best_score)
     return
 
