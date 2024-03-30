@@ -1,251 +1,219 @@
+import sys
 from collections import deque
+INT_MAX = sys.maxsize
+q = deque()
 
-# 변수 선언 및 입력:
-n, m, k = tuple(map(int, input().split()))
-# 현재 포탑들이 가진 힘과 언제 각성했는지 기록해줍니다.
-board = [
-    list(map(int, input().split()))
-    for _ in range(n)
-]
-rec = [
-    [0] * m
-    for _ in range(n)
-]
+dxs = [0,1,0,-1]
+dys = [1,0,-1,0]
 
-dxs, dys = [0, 1, 0, -1], [1, 0, -1, 0]
-dxs2, dys2 = [0, 0, 0, -1, -1, -1, 1, 1, 1], [0, -1, 1, 0, -1, 1, 0, -1, 1]
+N, M, K = map(int,input().split())
 
-turn = 0
+turret = []
+recent_attack = [[0 for j in range(M)] for i in range(N)]
+broken = [[False for j in range(M)] for i in range(N)]
+involve_attack = [[False for j in range(M)] for i in range(N)]
+visited = [[False for j in range(M)] for i in range(N)]
+back_x = [[0 for j in range(M)] for i in range(N)]
+back_y = [[0 for j in range(M)] for i in range(N)]
 
-# 빛의 공격을 할 때 방문 여부와 경로 방향을 기록해줍니다.
-vis = [
-    [0] * m
-    for _ in range(n)
-]
-back_x = [
-    [0] * m
-    for _ in range(n)
-]
-back_y = [
-    [0] * m
-    for _ in range(n)
-]
+for x in range(N):
+    line = list(map(int,input().split()))
+    for y, elem in enumerate(line):
+        if not elem:
+            broken[x][y] = True
+    turret.append(line)
 
-# 공격과 무관했는지 여부를 저장합니다.
-is_active = [
-    [False] * m
-    for _ in range(n)
-]
+######################################
 
+def print_grid(grid):
+    for x in range(N):
+        for y in range(M):
+            print(grid[x][y],end=' ')
+        print()
+    print()
+    return
 
-# 구조체 turret을 정의해 관리합니다.
-class Turrent:
-    def __init__(self, x, y, r, p):
-        self.x = x
-        self.y = y
-        self.r = r
-        self.p = p
+def select_attacker_and_victim():
+    min_turret = (INT_MAX,INT_MAX,INT_MAX,INT_MAX)
+    attacker = (100,100)
+    max_turret = (-INT_MAX,-INT_MAX,-INT_MAX,-INT_MAX)
+    victim = (100,100)
+    for x in range(N):
+        for y in range(M):
+            if not broken[x][y]:
+                temp = (turret[x][y],recent_attack[x][y],-(x+y),-y)
+                if temp < min_turret:
+                    min_turret = temp
+                    attacker = (x,y)
+                if temp > max_turret:
+                    max_turret = temp
+                    victim = (x,y)
 
+    #print(attacker, victim)
+    ax, ay = attacker
+    turret[ax][ay] += (M+N)
+    return attacker, victim
 
-# 살아있는 포탑들을 관리합니다.
-live_turret = []
+def attack(attacker,victim):
+    global min_length, min_path, temp_path
+    ax, ay = attacker
+    vx, vy = victim
 
+    clear_visited()
+    clear_involve_attack()
 
-# 턴을 진행하기 전 필요한 전처리를 정리해줍니다.
-def init():
-    global turn
-    
-    turn += 1
-    for i in range(n):
-        for j in range(m):
-            vis[i][j] = False
-            is_active[i][j] = False
+    # dfs로 attack 부터 victim까지 경로 찾기
+    can_attack = bfs(ax,ay,vx,vy)
 
+    # 가능하면 레이저 공격
+    if can_attack:
+        laser_attack(ax,ay,vx,vy)
+    # 불가능하면 포탄공격
+    else:
+        bomb_attack(ax,ay,vx,vy)
 
-# 각성을 진행합니다.
-# 각성을 하면 가장 약한 포탑이 n + m만큼 강해집니다.
-def awake():
-    # 우선순위에 맞게 현재 살아있는 포탑들을 정렬해줍니다.
-    live_turret.sort(key=lambda x : (x.p, -x.r, -(x.x + x.y), -x.y))
+    update_recent_attack(attacker)
+    return
 
-    # 가장 약한 포탑을 찾아 n + m만큼 더해주고,
-    # is_active와 live_turret 배열도 갱신해줍니다.
-    weak_turret = live_turret[0]
-    x = weak_turret.x
-    y = weak_turret.y
-
-    board[x][y] += n + m
-    rec[x][y] = turn
-    weak_turret.p = board[x][y]
-    weak_turret.r = rec[x][y]
-    is_active[x][y] = True
-
-    live_turret[0] = weak_turret
-
-
-# 레이저 공격을 진행합니다.
-def laser_attack():
-    # 기존에 정렬된 가장 앞선 포탑이
-    # 각성한 포탑입니다.
-    weak_turret = live_turret[0]
-    sx = weak_turret.x
-    sy = weak_turret.y
-    power = weak_turret.p
-
-    # 기존에 정렬된 가장 뒤 포탑이
-    # 각성한 포탑을 제외한 포탑 중 가장 강한 포탑입니다.
-    strong_turret = live_turret[-1]
-    ex = strong_turret.x
-    ey = strong_turret.y
-
-    # bfs를 통해 최단경로를 관리해줍니다.
-    q = deque()
-    vis[sx][sy] = True
-    q.append((sx, sy))
-
-    # 가장 강한 포탑에게 도달 가능한지 여부를 can_attack에 관리해줍니다.
+def bfs(ax,ay,vx,vy):
+    visited[ax][ay] = True
+    q.clear()
+    q.append((ax,ay))
     can_attack = False
-
     while q:
         x, y = q.popleft()
+        # print("bfs:",x,y)
 
-        # 가장 강한 포탑에게 도달할 수 있다면
-        # 바로 멈춥니다.
-        if x == ex and y == ey:
+        if (x,y) == (vx,vy):
             can_attack = True
             break
 
-        # 각각 우, 하, 좌, 상 순서대로 방문하며 방문 가능한 포탑들을 찾고
-        # queue에 저장해줍니다.
-        for dx, dy in zip(dxs, dys):
-            nx = (x + dx + n) % n
-            ny = (y + dy + m) % m
+        for dx, dy in zip(dxs,dys):
+            nx, ny = (x + dx + N) % N, (y + dy + M) % M
+            if can_go(nx,ny):
+                push(x,y,nx,ny)
 
-            # 이미 방문한 포탑이라면 넘어갑니다.
-            if vis[nx][ny]: 
-                continue
-
-            # 벽이라면 넘어갑니다.
-            if board[nx][ny] == 0: 
-                continue
-
-            vis[nx][ny] = True
-            back_x[nx][ny] = x
-            back_y[nx][ny] = y
-            q.append((nx, ny))
-
-    # 만약 도달 가능하다면 공격을 진행합니다.
-    if can_attack:
-        # 우선 가장 강한 포탑에게는 power만큼의 공격을 진행합니다.
-        board[ex][ey] -= power
-        if board[ex][ey] < 0: 
-            board[ex][ey] = 0
-        is_active[ex][ey] = True
-
-        # 기존의 경로를 역추적하며
-        # 경로 상에 있는 모든 포탑에게 power // 2만큼의 공격을 진행합니다.
-        cx = back_x[ex][ey]
-        cy = back_y[ex][ey]
-
-        while not (cx == sx and cy == sy):
-            board[cx][cy] -= power // 2
-            if board[cx][cy] < 0: 
-                board[cx][cy] = 0
-            is_active[cx][cy] = True
-
-            next_cx = back_x[cx][cy]
-            next_cy = back_y[cx][cy]
-
-            cx = next_cx
-            cy = next_cy
-
-    # 공격을 성공했는지 여부를 반환합니다.
+    # print("bfs done")
     return can_attack
 
+def can_go(x,y):
+    return not visited[x][y] and not broken[x][y]
 
-# 레이저 공격을 하지 못했다면 폭탄 공격을 진행합니다.
-def bomb_attack():
-    # 기존에 정렬된 가장 앞선 포탑이
-    # 각성한 포탑입니다.
-    weak_turret = live_turret[0]
-    sx = weak_turret.x
-    sy = weak_turret.y
-    power = weak_turret.p
+def laser_attack(ax,ay,vx,vy):
 
-    # 기존에 정렬된 가장 뒤 포탑이
-    # 각성한 포탑을 제외한 포탑 중 가장 강한 포탑입니다.
-    strong_turret = live_turret[-1]
-    ex = strong_turret.x
-    ey = strong_turret.y
+    # print_grid(back_x)
+    # print_grid(back_y)
 
-    # 가장 강한 포탑의 3 * 3 범위를 모두 탐색하며
-    # 각각에 맞는 공격을 진행합니다.
-    for dx2, dy2 in zip(dxs2, dys2):
-        nx = (ex + dx2 + n) % n
-        ny = (ey + dy2 + m) % m
+    turret[vx][vy] -= turret[ax][ay]
+    involve_attack[ax][ay] = True
+    involve_attack[vx][vy] = True
 
-        # 각성한 포탑 자기 자신일 경우 넘어갑니다.
-        if nx == sx and ny == sy: 
-            continue
+    x = back_x[vx][vy]
+    y = back_y[vx][vy]
 
-        # 가장 강한 포탑일 경우 pow만큼의 공격을 진행합니다.
-        if nx == ex and ny == ey:
-            board[nx][ny] -= power
-            if board[nx][ny] < 0: 
-                board[nx][ny] = 0
-            is_active[nx][ny] = True
-        # 그 외의 경우 pow // 2만큼의 공격을 진행합니다.
-        else:
-            board[nx][ny] -= power // 2
-            if board[nx][ny] < 0: 
-                board[nx][ny] = 0
-            is_active[nx][ny] = True
+    while (x,y) != (ax,ay):
+        # print("x,y:",x,y)
+        turret[x][y] -= turret[ax][ay] // 2
+        involve_attack[x][y] = True
 
+        next_x = back_x[x][y]
+        next_y = back_y[x][y]
+        x = next_x
+        y = next_y
 
-# 공격에 관여하지 않은 모든 살아있는 포탑의 힘을 1 증가시킵니다.
-def reserve():
-    for i in range(n):
-        for j in range(m):
-            if is_active[i][j]: 
-                continue
-            if board[i][j] == 0: 
-                continue
-            board[i][j] += 1
+    return
 
+def bomb_attack(ax,ay,vx,vy):
+    dxs2 = [-1,-1,0,1,1,1,0,-1]
+    dys2 = [0,1,1,1,0,-1,-1,-1]
+    turret[vx][vy] -= turret[ax][ay]
+    involve_attack[ax][ay] = True
+    involve_attack[vx][vy] = True
+    for dx, dy in zip(dxs2,dys2):
+        nx, ny = (vx + dx + N) % N, (vy + dy + M) % M
+        if not broken[nx][ny] and (nx,ny) != (ax,ay):
+            turret[nx][ny] -= turret[ax][ay]//2
+            involve_attack[nx][ny] = True
 
-# k턴 동안 진행됩니다.
-for _ in range(k):
-    # 턴을 진행하기 전 살아있는 포탑을 정리합니다.
-    live_turret = []
-    for i in range(n):
-        for j in range(m):
-            if board[i][j]:
-                new_turret = Turrent(i, j, rec[i][j], board[i][j])
-                live_turret.append(new_turret)
+    return
 
-    # 살아있는 포탑이 1개 이하라면 바로 종료합니다.
-    if len(live_turret) <= 1: 
+def clear_visited():
+    for x in range(N):
+        for y in range(M):
+            visited[x][y] = False
+            back_x[x][y] = 0
+            back_y[x][y] = 0
+    return
+
+def clear_involve_attack():
+    for x in range(N):
+        for y in range(M):
+            involve_attack[x][y] = False
+    return
+
+def push(x,y,nx,ny):
+    visited[nx][ny] = True
+    back_x[nx][ny] = x
+    back_y[nx][ny] = y
+    q.append((nx,ny))
+    return
+
+def update_recent_attack(attacker):
+    ax, ay = attacker
+    for x in range(N):
+        for y in range(M):
+            recent_attack[x][y] += 1
+    recent_attack[ax][ay] = 0
+    return
+
+def update_broken():
+    for x in range(N):
+        for y in range(M):
+            if turret[x][y] <= 0:
+                turret[x][y] = 0
+                broken[x][y] = True
+    return
+
+def fix_turret():
+    for x in range(N):
+        for y in range(M):
+            if not broken[x][y] and not involve_attack[x][y]:
+                turret[x][y] += 1
+    return
+
+def check_end():
+    result = 0
+    for x in range(N):
+        for y in range(M):
+            if not broken[x][y]:
+                result += 1
+    return result <= 1
+
+def print_max_power():
+    print(max([turret[x][y] for x in range(N) for y in range(M)]))
+    return
+
+######################################
+
+for _ in range(K):
+    # print('---------------------')
+    if check_end():
+        # print('end')
         break
+    attacker, victim = select_attacker_and_victim()
+    # print("attacker:",attacker,"victim:",victim)
 
-    # 턴을 진행하기 전 필요한 전처리를 정리해줍니다.
-    init()
+    attack(attacker,victim)
+    # print("after attack")
+    # print_grid(turret)
+    # print_grid(recent_attack)
+    # print_grid(involve_attack)
 
-    # 각성을 진행합니다.
-    awake()
+    update_broken()
+    # print("after update broken")
+    # print_grid(broken)
 
-    # 레이저 공격을 진행합니다.
-    is_suc = laser_attack()
-    # 레이저 공격을 하지 못했다면 포탄 공격을 진행합니다.
-    if not is_suc: 
-        bomb_attack()
+    fix_turret()
+    # print_grid(turret)
 
-    # 공격에 관여하지 않은 모든 살아있는 포탑의 힘을 1 증가시킵니다.
-    reserve()
-
-# 살아있는 포탑의 힘 중 가장 큰 값을 출력합니다.
-ans = 0
-for i in range(n):
-    for j in range(m):
-        ans = max(ans, board[i][j])
-
-print(ans)
+print_max_power()
