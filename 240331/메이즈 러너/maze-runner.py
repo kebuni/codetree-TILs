@@ -158,14 +158,14 @@ for t in range(K):
     update_exit_pos()
     # print("exit:", exit_x, exit_y)
 
-    if check_end():
-        # print("all player done")
-        break
-
     move_all()
     # print("after move all")
     # print("move num:", move_num)
     # print_grid(player)
+
+    if check_end():
+        # print("all player done")
+        break
 
     lux, luy, length = find_min_square()
     # print("lux, luy, length : ", lux, luy, length)
