@@ -58,6 +58,10 @@ def try_judge(time):
 
     # 가능한 도메인 중 최우선순위 task를 찾습니다.
     for domain in task_q:
+        
+        if not task_q[domain]:
+            continue
+        
         if available_domain(domain,time):
             temp = heapq.heappop(task_q[domain])
             if temp < min_task:
