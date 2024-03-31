@@ -19,7 +19,7 @@ Q = int(input())
 _, N, url0 = input().split()
 N = int(N)
 domain0, id0 = url0.split('/')
-id0 = int(id0)
+#id0 = int(id0)
 
 task_q = {}
 task_q[domain0] = []
