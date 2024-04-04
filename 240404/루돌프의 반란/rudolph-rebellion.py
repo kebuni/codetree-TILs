@@ -101,6 +101,7 @@ def santa_crash(idx,x,y,d):
     return
 
 def interaction(idx,x,y,d):
+    # print("interaction:",idx,x,y,d)
     # x, y위치에 산타가 d 방향으로 날아왔습니다.
     # x, y 위치에 더 이상 산타가 없을 때까지 상호작용처리 해야합니다.
 
@@ -147,14 +148,15 @@ def move_santas():
 
         # print("going to",bx,by,bd)
 
+        if moved:
+            grid[x][y] = 0
+
         if grid[bx][by] == -1:
             santa_crash(idx,bx,by,bd)
-            grid[x][y] = 0
         else:
             grid[bx][by] = idx
             santa_pos[idx] = (bx,by)
-            if moved:
-                grid[x][y] = 0
+
 
     return
 
