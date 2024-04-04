@@ -23,6 +23,7 @@ ans_sushi_num = 0
 ans_customer_num = 0
 
 customer_info = {}
+customer_exit_time = {}
 
 L, Q = map(int,input().split())
 query_list = []
@@ -39,6 +40,7 @@ for i in range(Q):
         n = int(command[4])
         query_list.append(Query(200,t,x,command[3],n))
         customer_info[command[3]] = [t,x,n,0]
+        customer_exit_time[command[3]] = -1
     else:
         t = int(command[1])
         query_list.append(Query(300, t, -1, "", -1))
@@ -63,14 +65,17 @@ for q in query_list:
         additional_query_list.append(Query(111,out_time,-1,"",-1))
         # customer가 먹은 초밥 개수를 업데이트합니다.
         customer_info[q.name][3] += 1
+        customer_exit_time[q.name] = max(customer_exit_time[q.name], out_time)
         # 만약 customer가 모든 초밥을 먹었다면 222 쿼리를 추가합니다.
-        if customer_info[q.name][2] == customer_info[q.name][3]:
-            additional_query_list.append(Query(222,out_time,-1,"",-1))
+
+for name, exit_time in customer_exit_time.items():
+    additional_query_list.append(Query(222,exit_time,-1,name,-1))
 
 # 새로운 쿼리를 추가해서 정렬합니다.
 query_list += additional_query_list
 query_list.sort()
 # print_query_list()
+# print(customer_exit_time)
 
 # 쿼리마다 ans를 더하거나 빼고 300 쿼리에선 프린트합니다.
 for q in query_list:
