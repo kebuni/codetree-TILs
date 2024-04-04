@@ -112,7 +112,7 @@ def interaction(idx,x,y,d):
 
         nx, ny = x + dxs[d], y + dys[d] # nidx가 와야할 자리 입니다.
         if not in_range(nx,ny): # 만약 nidx가 범위 밖으로 나가게 된다면
-            santa_pos[nidx] = -1 # nidx는 탈락입니다.
+            santa_status[nidx] = -1 # nidx는 탈락입니다.
             return # 상호작용을 중단합니다.
         else: # nidx가 갈 자리가 있다면
             idx = nidx # nidx를 idx로 두고 다시 봅시다.
