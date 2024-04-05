@@ -5,29 +5,30 @@ ans = 0
 dxs = [-1,0,1,0]
 dys = [0,1,0,-1]
 
+visited = []
+
 #####################
 
 def in_range(x,y):
     return 0<=x<N and 0<=y<M
 
-def find_max(x,y):
-    visited = [(x,y)]
-    dfs(x,y,0,grid[x][y],visited)
-    return
+def can_go(x,y):
+    return in_range(x,y) and (x,y) not in visited
 
-def dfs(x,y,n,value,visited):
-    # print(x,y,n,value,visited)
+def find_max(n,value):
     global ans
-    if n == 3:
+    if n == 4:
         ans = max(ans,value)
         return
 
-    for dx, dy in zip(dxs,dys):
-        nx, ny = x + dx, y + dy
-        if in_range(nx,ny) and (nx,ny) not in visited:
-            visited.append((nx,ny))
-            dfs(nx,ny,n+1,value+grid[nx][ny],visited)
-            visited.pop()
+    for (x,y) in visited:
+        for dx, dy in zip(dxs,dys):
+            nx, ny = x + dx, y + dy
+            if can_go(nx,ny):
+                visited.append((nx,ny))
+                find_max(n+1,value + grid[nx][ny])
+                visited.pop()
+
     return
 
 
@@ -35,7 +36,8 @@ def dfs(x,y,n,value,visited):
 
 for x in range(N):
     for y in range(M):
-        find_max(x,y)
-        # print("x,y",x,y,ans)
+        visited.append((x,y))
+        find_max(1,grid[x][y])
+        visited.pop()
 
 print(ans)
