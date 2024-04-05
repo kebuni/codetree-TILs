@@ -2,16 +2,16 @@ N = int(input())
 edge = [[] for i in range(N+1)]
 visited = [False for i in range(N+1)]
 parent = [0 for i in range(N+1)]
-num = [0 for i in range(N+1)]
+arr = [0 for i in range(N+1)]
 for i in range(2,N+1):
     t, a, p = map(int,input().split())
     edge[i].append(p)
     edge[p].append(i)
     parent[i] = p
     if t == 1:
-        num[i] = a
+        arr[i] = a
     else:
-        num[i] = -a 
+        arr[i] = -a 
 
 #########################
 
