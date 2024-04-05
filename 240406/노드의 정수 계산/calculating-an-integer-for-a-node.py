@@ -1,3 +1,6 @@
+import sys
+sys.setrecursionlimit(110000)
+
 N = int(input())
 edge = [[] for i in range(N+1)]
 visited = [False for i in range(N+1)]
