@@ -60,70 +60,83 @@ def print_tail():
     print()
     return
 
-def query1(s_num,d_num):
-    s_head = head[s_num]
-    if s_head is None:
-        return
-    s_head_next = s_head.next
-    pop(s_head)
-    head[s_num] = s_head_next
-    d_tail = tail[d_num]
-    connect(d_tail,s_head)
-    tail[d_num] = s_head
-    if head[d_num] == None:
-        head[d_num] = tail[d_num]
+def pop_front(i):
+    if head[i] is None:
+        return None
+
+    _head = head[i]
+    # 노드가 하나일 경우
+    if _head.next is None:
+        head[i] = None
+        tail[i] = None
+    # 노드가 여러 개일 경우
+    else:
+        head[i] = _head.next
+        _head.next = None
+        head[i].prev = None
+
+    return _head
+
+def pop_back(i):
+    if tail[i] is None:
+        return None
+
+    _tail = tail[i]
+    if tail[i].prev is None:
+        head[i] = None
+        tail[i] = None
+    else:
+        tail[i] = _tail.prev
+        _tail.prev = None
+        tail[i].next = None
+
+    return _tail
+
+def push_front(i,u):
+    if head[i] is None:
+        head[i] = u
+        tail[i] = u
+    else:
+        connect(u,head[i])
+        head[i] = u
     return
 
-def query2(s_num,d_num):
-    s_tail = tail[s_num]
-    if s_tail is None:
-        return
-    s_tail_prev = s_tail.prev
-    pop(s_tail)
-    tail[s_num] = s_tail_prev
-    d_head = head[d_num]
-    connect(s_tail,d_head)
-    head[d_num] = s_tail
-    if tail[d_num] == None:
-        tail[d_num] = head[d_num]
+def push_back(i,u):
+    if tail[i] is None:
+        head[i] = u
+        tail[i] = u
+    else:
+        connect(tail[i],u)
+        tail[i] = u
     return
 
-def query3(s_num,d_num):
-    s_head = head[s_num]
-    if s_head is None:
-        return
-    s_tail = tail[s_num]
-    if s_tail is None:
+def remove_all_and_push_front(i,j):
+    if i == j or head[i] == None:
         return
 
-    head[s_num] = None
-    tail[s_num] = None
+    # j가 비었다면
+    if head[j] is None:
+        head[j] = head[i]
+        tail[j] = tail[i]
+    else:
+        connect(tail[i],head[j])
+        head[j] = head[i]
 
-    d_head = head[d_num]
-    connect(s_tail,d_head)
-    head[d_num] = s_head
-    if tail[d_num] == None:
-        tail[d_num] = head[d_num]
+    head[i] = tail[i] = None
     return
 
-def query4(s_num,d_num):
-    s_head = head[s_num]
-    if s_head is None:
-        return
-    s_tail = tail[s_num]
-    if s_tail is None:
+def remove_all_and_push_back(i,j):
+    if i == j or head[i] == None:
         return
 
-    head[s_num] = None
-    tail[s_num] = None
+    if head[j] is None:
+        head[j] = head[i]
+        tail[j] = tail[i]
+    else:
+        connect(tail[j],head[i])
+        tail[j] = tail[i]
 
-    d_tail = tail[d_num]
-    connect(d_tail, s_head)
-    tail[d_num] = s_tail
-
-    if head[d_num] == None:
-        head[d_num] = tail[d_num]
-
+    head[i] = tail[i] = None
     return
 
 def print_ans():
@@ -140,20 +153,23 @@ def print_ans():
         print()
     return
 
-
 #############################
 
 Q = int(input())
 query = [tuple(map(int,input().split())) for i in range(Q)]
 for q_num, s_num, d_num in query:
     if q_num == 1:
-        query1(s_num, d_num)
+        temp = pop_front(s_num)
+        if temp is not None:
+            push_back(d_num,temp)
     elif q_num == 2:
-        query2(s_num, d_num)
+        temp = pop_back(s_num)
+        if temp is not None:
+            push_front(d_num, temp)
     elif q_num == 3:
-        query3(s_num, d_num)
+        remove_all_and_push_front(s_num, d_num)
     else:
-        query4(s_num, d_num)
+        remove_all_and_push_back(s_num, d_num)
 
     # print("query",q_num,s_num,d_num)
     # print_ans()
