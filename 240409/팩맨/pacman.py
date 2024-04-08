@@ -34,7 +34,7 @@ def move_all_monster():
             for d in range(8):
                 if grid[x][y][d]:
                     nx, ny, nd = move_one(x,y,d)
-                    next_grid[nx][ny][nd] = grid[x][y][d]
+                    next_grid[nx][ny][nd] += grid[x][y][d]
     copy_next_grid()
     return
 
