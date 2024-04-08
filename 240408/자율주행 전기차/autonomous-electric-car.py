@@ -83,6 +83,8 @@ def go_start(customer,cus_x,cus_y):
     global CX, CY, fuel
     # cus_x, cus_y까지의 거리를 구합니다.
     dist = step[cus_x][cus_y]
+    if dist == -1:
+        return False
     # 남은 연료로 이동이 가능한지 봅니다.
     # 불가능하면 return False
 
@@ -111,6 +113,8 @@ def go_end(customer):
     ex, ey = end[customer]
     bfs(CX,CY)
     dist = step[ex][ey]
+    if dist == -1:
+        return False
     # 남은 연료로 이동이 가능한지 봅니다.
     # print("[go_end]")
     # print("dist, fuel", dist, fuel)
