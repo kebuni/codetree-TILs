@@ -4,16 +4,16 @@ dp = [[-1 for i in range(M)] for j in range(N)]
 dp[0][0] = 0
 
 for y in range(1,M):
-    dp[0][y] = 0
+    dp[0][y] = -1
 
 for x in range(1,N):
-    dp[x][0] = 0
+    dp[x][0] = -1
 
 for x in range(1,N):
     for y in range(1,M):
         for i in range(x):
             for j in range(y):
-                if dp[i][j] != -1 and grid[i][j] < grid[x][y]:
+                if dp[i][j] > -1 and grid[i][j] < grid[x][y]:
                     dp[x][y] = max(dp[x][y],dp[i][j]+1)
 
 # for x in range(N):
