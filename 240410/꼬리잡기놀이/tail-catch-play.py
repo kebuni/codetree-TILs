@@ -28,7 +28,7 @@ def initialize():
 
                 for dx, dy in zip(dxs,dys):
                     nx, ny = x + dx, y + dy
-                    if first_grid[nx][ny] == 2:
+                    if in_range(nx,ny) and first_grid[nx][ny] == 2:
                         dfs(nx,ny,x,y,team_num,1)
                         break
 
