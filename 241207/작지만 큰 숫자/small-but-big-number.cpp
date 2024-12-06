@@ -15,12 +15,11 @@ int main() {
     for(int i =0; i<M ; i++){
         long long num;
         cin >> num;
-        set<long long>::iterator it;
-        it = s.upper_bound(num);
-        it--;
-        if(it == s.end())
+        set<long long>::iterator it = s.upper_bound(num);
+        if (it == s.begin())
             cout << -1 << endl;
         else{
+            it--;
             cout << *it << endl;
             s.erase(*it);
         }
