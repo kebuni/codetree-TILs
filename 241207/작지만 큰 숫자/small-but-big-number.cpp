@@ -2,20 +2,20 @@
 #include <set>
 using namespace std;
 
-set<int> s;
+set<long long> s;
 
 int main() {
     int N, M;
     cin >> N >> M;
     for(int i =0; i<N ; i++){
-        int input;
+        long long input;
         cin >> input;
         s.insert(input);
     }
     for(int i =0; i<M ; i++){
-        int num;
+        long long num;
         cin >> num;
-        set<int>::iterator it;
+        set<long long>::iterator it;
         it = s.upper_bound(num);
         it--;
         if(it == s.end())
