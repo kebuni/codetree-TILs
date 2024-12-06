@@ -10,7 +10,7 @@ int main() {
     cin >> N;
 
     for (int i=0; i<N;i++){
-        int x, y;
+        long long x, y;
         cin >> x >> y;
         if(m.find(x)==m.end())
             m[x] = y;
@@ -19,7 +19,7 @@ int main() {
         //cout << m[x] << endl;
     }
 
-    int ans=0;
+    long long ans=0;
     for (auto it:m)
         ans += it.second;
     cout << ans;
